@@ -1,5 +1,13 @@
 'use strict';
+
 /* Data Access Object (DAO) module for accessing courses and exams */
+
+// TODO
+// INSERIRE USERS ALL'INTERNO DELLE RIGHE
+
+
+
+
 
 const sqlite = require('sqlite3');
 
@@ -17,7 +25,7 @@ exports.listTasks = () => {
         reject(err);
         return;
       }
-      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private }));
+      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private, checked: t.checked , userid : t.userid }));
       resolve(tasks);
     });
   });
@@ -32,7 +40,7 @@ exports.getImportantTasks = () => {
         reject(err);
         return;
       }
-      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private }));
+      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private, checked: t.checked , userid : t.userid }));
       resolve(tasks);
     });
   });
@@ -47,7 +55,7 @@ exports.getPrivateTasks = () => {
         reject(err);
         return;
       }
-      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private }));
+      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private, checked: t.checked }));
       resolve(tasks);
     });
   });
@@ -66,7 +74,7 @@ exports.getTaskByDeadline = (deadline) => {
       if (row == undefined) {
         reject({error: 'Deadline not found.'});
       } else {
-        const task = { id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private  };
+        const task = { id : row.id, description: row.description, important: row.important, deadline : row.deadline, private: row.private, checked: row.checked  };
         resolve(task);
       }
     });
@@ -86,7 +94,7 @@ exports.getTaskById = (id) => {
       if (row == undefined) {
         reject({error: 'Id not found.'});
       } else {
-        const task = { id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private  };
+        const task = { id : row.id, description: row.description, important: row.important, deadline : row.deadline, private: row.private, checked: row.checked  };
         resolve(task);
       }
     });
@@ -119,9 +127,9 @@ exports.getTaskById = (id) => {
 // add a new task
 exports.createTask = (task) => {
   return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO tasks(description, important, deadline, private) VALUES(?, ?, DATETIME(?), ?)';
+    const sql = 'INSERT INTO tasks(description, important, deadline, private, checked) VALUES(?, ?, DATETIME(?), ?, 0)';
     //TODO fare controlli dei booleani
-    db.run(sql, [task.description, task.important, task.deadline, task.private], function (err) {
+    db.run(sql, [task.description, task.important, task.deadline, task.private ], function (err) {
       if (err) {
         reject(err);
         return;
@@ -134,8 +142,8 @@ exports.createTask = (task) => {
 // update an existing task
 exports.updateTask = (task) => {
   return new Promise((resolve, reject) => {
-    const sql = 'UPDATE tasks SET description=?, important=?, deadline=DATETIME(?), private=? WHERE id = ?';
-    db.run(sql, [task.description, task.important, task.deadline, task.private, task.id], function (err) {
+    const sql = 'UPDATE tasks SET description=?, important=?, deadline=DATETIME(?), private=?, checked=? WHERE id = ?';
+    db.run(sql, [task.description, task.important, task.deadline, task.private, task.checked, task.id], function (err) {
       if (err) {
         reject(err);
         return;
