@@ -1,12 +1,11 @@
 # BigLab 2 - Class: 2021 WA1
 
-## Team name: TEAM_NAME
+## Team name: MAS
 
 Team members:
-* s123456 LASTNAME FIRSTNAME
-* s123456 LASTNAME FIRSTNAME 
-* s123456 LASTNAME FIRSTNAME
-* s123456 LASTNAME FIRSTNAME (delete line if not needed)
+* s265157 GENOVESE SIMONA
+* s265554 VARRICCHIO MARTINA 
+* s281605 TAURINO ANDREA
 
 ## Instructions
 
@@ -30,3 +29,119 @@ Provide a short description for API with the required parameters, follow the pro
 * [Sample request, with body (if any)]
 * [Sample response, with body (if any)]
 * [Error responses, if any]
+
+### List tasks
+
+URL: `/api/tasks`
+
+HTTP Method: GET
+
+Description: Retrieve the list of all the tasks
+
+Request body: EMPTY
+
+Response: 
+
+Response body:
+```
+[ {id, description, deadline, important, private, checked, userid}, {id, description, deadline, important, private, checked, userid} ]
+```
+
+### Get a task
+
+#### Get task by id
+
+URL: `/api/tasks/:id`
+
+HTTP Method: GET
+
+Description: Retrieve the attributes of the task with the specified id
+
+Request body: EMPTY
+
+Response: 
+
+Response body:
+```
+{id, description, deadline, important, private, checked, userid}
+```
+
+#### Get task by deadline
+
+URL: `/api/tasks/:deadline`
+
+HTTP Method: GET
+
+Description: Retrieve the attributes of the task with the specified deadline
+
+Request body: EMPTY
+
+Response: 
+
+Response body:
+```
+{id, description, deadline, important, private, checked, userid}
+```
+
+#### Get important tasks
+
+URL: `/api/tasks/:important`
+
+HTTP Method: GET
+
+Description: Retrieve important tasks
+
+Request body: EMPTY
+
+Response: 
+
+Response body:
+```
+{id, description, deadline, important, private, checked, userid}
+```
+
+#### Get private tasks
+
+URL: `/api/tasks/:private`
+
+HTTP Method: GET
+
+Description: Retrieve private tasks
+
+Request body: EMPTY
+
+Response: 
+
+Response body:
+```
+{id, description, deadline, important, private, checked, userid}
+```
+
+### Add a new task
+
+URL: `/api/tasks`
+
+HTTP Method: POST
+
+Description: Add a new task by providing all relevant information
+
+Request body: `{description, deadline, important, private, userid}`
+
+Response: 
+
+Response body: EMPTY
+
+
+### Delete an existing task
+
+URL: `/api/tasks/:id`
+
+HTTP Method: DELETE
+
+Description: Delete an existing task with a given id
+
+Request body: EMPTY
+
+Response: 
+
+Response body: EMPTY
