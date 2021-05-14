@@ -131,6 +131,20 @@ Response:
 
 Response body: EMPTY
 
+### Update an existing task
+
+URL: `/api/tasks/:id`
+
+HTTP Method: POST
+
+Description: Update an existing task by providing all relevant information 
+
+Request body: `{description, deadline, important, private, userid}`
+
+Response:
+
+Response Body: EMPTY
+
 
 ### Delete an existing task
 
