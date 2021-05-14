@@ -30,6 +30,7 @@ Provide a short description for API with the required parameters, follow the pro
 * [Sample response, with body (if any)]
 * [Error responses, if any]
 
+
 ### List tasks
 
 URL: `/api/tasks`
@@ -144,6 +145,20 @@ Request body: `{description, deadline, important, private, userid}`
 Response:
 
 Response Body: EMPTY
+
+### Check/Uncheck a task
+
+URL: `/api/tasks/:id/:checked`
+
+HTTP Method: POST
+
+Description: Check/Uncheck an existing task with a given id
+
+Request body: EMPTY
+
+Response: 
+
+Response body: EMPTY 
 
 
 ### Delete an existing task

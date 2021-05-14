@@ -1,14 +1,5 @@
 'use strict';
 
-/* Data Access Object (DAO) module for accessing courses and exams */
-
-// TODO
-// INSERIRE USERS ALL'INTERNO DELLE RIGHE
-
-
-
-
-
 const sqlite = require('sqlite3');
 
 // open the database
@@ -55,13 +46,11 @@ exports.getPrivateTasks = () => {
         reject(err);
         return;
       }
-      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private, checked: t.checked }));
+      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private, checked: t.checked, userid: t.userid }));
       resolve(tasks);
     });
   });
 };
-
-
 
 exports.getTaskByDeadline = (deadline) => {
   return new Promise((resolve, reject) => {
@@ -74,14 +63,12 @@ exports.getTaskByDeadline = (deadline) => {
       if (row == undefined) {
         reject({error: 'Deadline not found.'});
       } else {
-        const task = { id : row.id, description: row.description, important: row.important, deadline : row.deadline, private: row.private, checked: row.checked  };
+        const task = { id : row.id, description: row.description, important: row.important, deadline : row.deadline, private: row.private, checked: row.checked, userid: row.userid };
         resolve(task);
       }
     });
   });
 };
-
-
 
 exports.getTaskById = (id) => {
   return new Promise((resolve, reject) => {
@@ -94,7 +81,7 @@ exports.getTaskById = (id) => {
       if (row == undefined) {
         reject({error: 'Id not found.'});
       } else {
-        const task = { id : row.id, description: row.description, important: row.important, deadline : row.deadline, private: row.private, checked: row.checked  };
+        const task = { id : row.id, description: row.description, important: row.important, deadline : row.deadline, private: row.private, checked: row.checked, userid: row.userid  };
         resolve(task);
       }
     });
