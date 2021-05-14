@@ -101,35 +101,13 @@ exports.getTaskById = (id) => {
   });
 };
 
-// // get all exams
-// exports.listExams = () => {
-//   return new Promise((resolve, reject) => {
-//     const sql = 'SELECT coursecode, score, date FROM exam';
-
-//     db.all(sql, (err, rows) => {
-//       if (err) {
-//         reject(err);
-//         return;
-//       }
-
-//       const exams = rows.map((e) => (
-//         {
-//           code: e.coursecode,
-//           score: e.score,
-//           date: e.date,
-//         }));
-
-//       resolve(exams);
-//     });
-//   });
-// };
 
 // add a new task
 exports.createTask = (task) => {
   return new Promise((resolve, reject) => {
-    const sql = 'INSERT INTO tasks(description, important, deadline, private, checked) VALUES(?, ?, DATETIME(?), ?, 0)';
+    const sql = 'INSERT INTO tasks(description, important, deadline, private, checked, userid) VALUES(?, ?, DATETIME(?), ?, 0, ?)';
     //TODO fare controlli dei booleani
-    db.run(sql, [task.description, task.important, task.deadline, task.private ], function (err) {
+    db.run(sql, [task.description, task.important, task.deadline, task.private, task.userid], function (err) {
       if (err) {
         reject(err);
         return;
@@ -142,8 +120,22 @@ exports.createTask = (task) => {
 // update an existing task
 exports.updateTask = (task) => {
   return new Promise((resolve, reject) => {
-    const sql = 'UPDATE tasks SET description=?, important=?, deadline=DATETIME(?), private=?, checked=? WHERE id = ?';
-    db.run(sql, [task.description, task.important, task.deadline, task.private, task.checked, task.id], function (err) {
+    const sql = 'UPDATE tasks SET description=?, important=?, deadline=DATETIME(?), private=?, userid=? WHERE id = ?';
+    db.run(sql, [task.description, task.important, task.deadline, task.private, task.userid, task.id], function (err) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(this.lastID);
+    });
+  });
+};
+
+// mark an existing task as completed/uncompleted
+exports.updateChecked = (id, checked) => {
+  return new Promise((resolve, reject) => {
+    const sql = 'UPDATE tasks SET checked=? WHERE id = ?';
+    db.run(sql, [checked, id], function (err) {
       if (err) {
         reject(err);
         return;
