@@ -16,7 +16,9 @@ function PageComponents(props) {
         async function loadTasks() {
             const response = await fetch('/api/tasks');
             const responseJSON = await response.json();
-            setTasksState(responseJSON);
+            let tasks = [];
+            tasks.push(responseJSON);
+            setTasksState(tasks);
         }
         loadTasks();
     }, []);
