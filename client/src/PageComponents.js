@@ -1,51 +1,30 @@
 import { Row } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import SideContainer from './SideContainer.js';
 import MainContainer from './MainContainer.js';
-import dayjs from 'dayjs';
 import AddController from './AddController.js';
 import { Switch, Route } from 'react-router-dom';
-
-const tasks = [
-    {
-        id: 1,
-        description: "Complete Lab 3",
-        important: false,
-        deadline: dayjs().add(1, 'hour'),
-        privatez: true
-    },
-    {
-        id: 2,
-        description: "Buy something",
-        important: false,
-        deadline: dayjs().add(1, 'day'),
-        privatez: false,
-    },
-    {
-        id: 3,
-        description: "Read a good book",
-        important: true,
-        deadline: dayjs().add(3, 'day'),
-        privatez: false
-    },
-    {
-        id: 4,
-        description: "Gym time",
-        important: true,
-        deadline: dayjs().add(5, 'day'),
-        privatez: true,
-    },
-];
 
 function PageComponents(props) {
 
     const [selected, setSelected] = useState("All");
-    const [tasksState, setTasksState] = useState([...tasks]);
+    const [tasksState, setTasksState] = useState('');
     const [lastId, setLastId] = useState(4);
 
+    useEffect(() => {
+        async function loadTasks() {
+            const response = await fetch('/api/tasks');
+            const responseJSON = await response.json();
+            setTasksState(responseJSON);
+        }
+        loadTasks();
+    }, []);
+    // the side-effect runs once after the initial rendering
+    // va bene mettere l'array vuoto?
+
     return (
-        <>
+        <>   
             <Row id="row_1">
                 <SideContainer chosen={selected} setSelected={setSelected} />
 
@@ -68,7 +47,7 @@ function PageComponents(props) {
 
                 </Switch>
             </Row>
-            <AddController taskList={tasksState} setTask={setTasksState} lastId={lastId} setLastId={setLastId} />
+         {/**<AddController taskList={tasksState} setTask={setTasksState} lastId={lastId} setLastId={setLastId} />  */}
         </>
     );
 }

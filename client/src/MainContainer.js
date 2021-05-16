@@ -40,9 +40,9 @@ function MainContainer(props) {
 }
 
 function RowFiltered(props) {
-    if((props.selection === 'Important' && props.task.important) || (props.selection === 'All') ||
-        (props.selection === 'Private' && props.task.privatez) || (props.selection === 'Today' && isToday(props.task.deadline)) ||
-        (props.selection === 'Next 7 Days' && isNextWeek(props.task.deadline))) {
+    if((props.selection === 'Important' && props.task.important === 1) || (props.selection === 'All') ||
+        (props.selection === 'Private' && props.task.private === 1) || (props.selection === 'Today' && isToday(dayjs(props.task.deadline))) ||
+        (props.selection === 'Next 7 Days' && isNextWeek(dayjs(props.task.deadline)))) {
             return (
                 <TaskRow
                         task={props.task}
@@ -76,11 +76,11 @@ function RowData(props) {
       <Col>
             <Form inline>
                 <Form.Check type="checkbox" id={props.task.id} label = {props.task.description} custom
-                className = {props.task.important ? 'important' : ''}
+                className = {props.task.important === 1 ? 'important' : ''}
                 />
             </Form>
       </Col>      <Col> {(() => {
-            if(props.task.privatez) {
+            if(props.task.private === 1) {
             return (
             <Form.Label className="col text-center">
                 <svg className="bi bi-person-square" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -93,7 +93,7 @@ function RowData(props) {
         })()}
       </Col>
       <Col>
-        <Form.Label className="col text-right">{formatDeadline(props.task.deadline)}</Form.Label>
+        <Form.Label className="col text-right">{formatDeadline(dayjs(props.task.deadline))}</Form.Label>
       </Col>
     </>
     );
