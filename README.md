@@ -136,9 +136,9 @@ Response body: EMPTY
 
 URL: `/api/tasks/:id`
 
-HTTP Method: POST
+HTTP Method: PUT
 
-Description: Update an existing task by providing all relevant information 
+Description: Update information of an existing task with a given id 
 
 Request body: `{description, deadline, important, private, userid}`
 
@@ -150,7 +150,7 @@ Response Body: EMPTY
 
 URL: `/api/tasks/:id/:checked`
 
-HTTP Method: POST
+HTTP Method: PUT
 
 Description: Check/Uncheck an existing task with a given id
 

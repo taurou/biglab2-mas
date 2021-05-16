@@ -1,0 +1,62 @@
+.App {
+  text-align: center;
+}
+
+#todo {
+  color: white;
+}
+
+#asid {
+  background-color: white;
+  padding-top: 5rem;
+}
+
+#row_1{
+    min-height: 100vh;
+}
+
+#tasks{
+  margin-top: 5rem;
+}
+
+.tit-bold{
+  font-weight: bold;
+}
+
+.title{
+  font-size: 1.8rem ;
+}
+
+.SidebarList .row2:hover{
+  cursor: pointer;
+  background-color: #9BECAE;
+  text-decoration: none;
+}
+
+.SidebarList #active{
+  color:white;
+  background-color: #28A745;
+}
+
+.SidebarList .row2{
+  background-color: transparent;
+  color: black;
+}
+
+.fixed-right-bottom {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 1030;
+  margin: 0 0.5rem 0.5rem 0;
+  border-radius: 50%;
+}
+
+.important {
+  color: red;
+}
+
+
+.disabled-link {
+  pointer-events: none;
+}
