@@ -23,7 +23,11 @@ function PageComponents(props) {
     // the side-effect runs once after the initial rendering
     // va bene mettere l'array vuoto?
 
-    return (
+    
+    // if (tasksState === "")
+    //     return null;
+
+        return tasksState &&  (
         <>   
             <Row id="row_1">
                 <SideContainer chosen={selected} setSelected={setSelected} />
