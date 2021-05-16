@@ -84,7 +84,7 @@ app.post('/api/tasks', async (req, res) => {
 });
 
 // update an existing task
-app.post('/api/tasks/:id', async (req, res) => {
+app.put('/api/tasks/:id', async (req, res) => {
 
     let id = req.params.id;
     let description = req.body.description;
@@ -103,7 +103,7 @@ app.post('/api/tasks/:id', async (req, res) => {
 });
 
 // mark an existing task as complete/uncompleted
-app.post('/api/tasks/:id/:checked', async (req, res) => {
+app.put('/api/tasks/:id/:checked', async (req, res) => {
 
     let id = req.params.id;
     let checked = req.params.checked;

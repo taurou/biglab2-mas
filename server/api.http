@@ -11,12 +11,12 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3001/api/tasks/2
+PUT http://localhost:3001/api/tasks/2
 Content-Type: application/json
 
 {
-"description":"Buy something!!!!",
-"important":0,
+"description":"Buy something big",
+"important":1,
 "deadline":"2021-06-29T19:30",
 "private":0,
 "userid":1
