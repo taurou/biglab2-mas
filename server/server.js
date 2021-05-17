@@ -81,7 +81,7 @@ app.post('/api/tasks', async (req, res) => {
     let userid = req.body.userid;
 
     try {
-        await dao.createTask({ description: description , important : important, deadline : deadline, private : privatez, userid: userid});
+        await dao.createTask({ description: description, important: important, deadline: deadline, private: privatez, userid: userid});
         res.end();
     } catch (error) {
         res.status(500).json(error);
@@ -126,8 +126,8 @@ app.delete('/api/tasks/:id', async (req, res) => {
 
     const id = req.params.id;
     try {
-        let task = await dao.deleteTask(id);
-        res.json(task);
+        await dao.deleteTask(id);
+        res.end();
     } catch (error) {
         res.status(500).json(error);
     }

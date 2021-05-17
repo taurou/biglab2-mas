@@ -9,27 +9,18 @@ import { Switch, Route } from 'react-router-dom';
 function PageComponents(props) {
 
     const [selected, setSelected] = useState("All");
-    const [tasksState, setTasksState] = useState('');
-    const [lastId, setLastId] = useState(4);
+    const [tasksState, setTasksState] = useState([]);
 
     useEffect(() => {
         async function loadTasks() {
-            const response = await fetch('/api/tasks');
+            const response = await fetch('/api/tasks', {method : 'GET'});
             const responseJSON = await response.json();
-            let tasks = [];
-            tasks.push(responseJSON);
-            setTasksState(tasks);
+            setTasksState(responseJSON);
         }
         loadTasks();
     }, []);
-    // the side-effect runs once after the initial rendering
-    // va bene mettere l'array vuoto?
 
-    
-    // if (tasksState === "")
-    //     return null;
-
-        return tasksState &&  (
+        return (
         <>   
             <Row id="row_1">
                 <SideContainer chosen={selected} setSelected={setSelected} />
@@ -53,7 +44,7 @@ function PageComponents(props) {
 
                 </Switch>
             </Row>
-         {/**<AddController taskList={tasksState} setTask={setTasksState} lastId={lastId} setLastId={setLastId} />  */}
+         <AddController taskList={tasksState} setTask={setTasksState} />
         </>
     );
 }

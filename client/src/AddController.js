@@ -5,9 +5,17 @@ import FormModal from './Modal.js';
 function AddController(props) {
     const [modalShow, setModalShow] = useState(false);
 
-    const addTask = (newTask) => {
-      props.setTask( oldTasks => [...oldTasks, newTask]);
-      props.setLastId (oldId => oldId + 1 );
+    async function addTask(newTask) {
+      newTask.important = newTask.important === true ? 1 : 0;
+      newTask.private = newTask.private === true ? 1 : 0;
+      await fetch('/api/tasks', {method : 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+          },
+        body: JSON.stringify(newTask)
+      });
+    
+      props.setTask(oldTasks => [...oldTasks, newTask]);
     }
 
     return (

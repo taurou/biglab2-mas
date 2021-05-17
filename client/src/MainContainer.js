@@ -10,13 +10,18 @@ import staticPencil from './static-pencil.png';
 
 function MainContainer(props) {
 
-    const deleteTask = (taskID) => {
+    async function deleteTask(taskID) {
+        await fetch('/api/tasks/'+taskID, {method : 'DELETE', 
+        headers: {
+            'Content-Type': 'application/json',
+            }});
         props.setTasks((ts) => ts.filter(task => task.id !== taskID))
     }
 
     useEffect(() => {
         props.setSelected(props.title);
     });
+
      
     return (
         <Col>

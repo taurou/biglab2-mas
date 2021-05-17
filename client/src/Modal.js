@@ -30,7 +30,7 @@ function FormModal(props) {
 
     const [description, setDescription] = useState(props.isAdding ? '' : props.task.description) ; 
     const [important, setImportant] = useState(props.isAdding ? false : props.task.important) ;
-    const [privatez, setPrivatez] = useState(props.isAdding ? false : props.task.privatez) ;
+    const [privatez, setPrivatez] = useState(props.isAdding ? false : props.task.private) ;
     const [deadline, setDeadline] = useState(props.isAdding ? '' : props.task.deadline.format("YYYY-MM-DD")) ;
     const [hour, setHour] = useState(props.isAdding ? '' : props.task.deadline.format("HH:mm")) ;
     const [errorMessage, setErrorMessage] = useState('');
@@ -63,9 +63,7 @@ function FormModal(props) {
 
           setConcluded(true);
           setErrorMessage('');
-          let myid;
-          props.isAdding ? (myid = props.lastId+1) : (myid = props.task.id);
-          const task = {id: myid, description: description, important: important, deadline: dayjs(deadline+"T"+hour), privatez: privatez};
+          const task = {description: description, important: important, deadline: (deadline+"T"+hour), private: privatez, userid: 1};
           props.addOrEdit(task);
           props.closeModal();
         }      
@@ -78,8 +76,8 @@ function FormModal(props) {
         Deadline: <Form.Control type='date' value={deadline} onChange={ev=>setDeadline(ev.target.value)}/><br />
         Hour: <Form.Control type = 'time' value={hour} onChange={ev=>setHour(ev.target.value)}/> <br/>
 
-        <Form.Check type="checkbox"  checked={important} id="important" custom onChange={(event)=>{setImportant(event.target.checked)}} label="Important" /><br />
-        <Form.Check type="checkbox"  checked={privatez} id= "private" custom onChange={(event)=>{setPrivatez(event.target.checked)}} label="Private" /><br />
+        <Form.Check type="checkbox" checked={important} id="important" custom onChange={(event)=>{setImportant(event.target.checked)}} label="Important" /><br />
+        <Form.Check type="checkbox" checked={privatez} id= "private" custom onChange={(event)=>{setPrivatez(event.target.checked)}} label="Private" /><br />
         <span style={{color:'red'}} >{errorMessage}</span>  {/* TODO: spostare style nel css - ingrandire il testo e mettere il colore rosso nel css*/}
         <Modal.Footer>
         <Button onClick={props.closeModal} variant="secondary">Cancel</Button><br/>

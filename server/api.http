@@ -2,7 +2,7 @@ POST http://localhost:3001/api/tasks
 Content-Type: application/json
 
 {
-"description":"Task priva2",
+"description":"hvasjdas",
 "important":1,
 "deadline":"2021-06-18T19:30",
 "private":0,
@@ -30,4 +30,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3001/api/tasks/5
+DELETE http://localhost:3001/api/tasks/10
