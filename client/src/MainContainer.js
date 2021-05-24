@@ -35,12 +35,13 @@ function MainContainer(props) {
     async function handleCheckbox(newTask, event) {
         
         let checkedValue = event.target.checked === true ? 1 : 0;
+        let task2 = {id: newTask.id, description: newTask.description, important: newTask.important, deadline: newTask.deadline, private: newTask.privatez, checked: checkedValue, userid: 1};
         await fetch('/api/tasks/'+newTask.id+'/'+checkedValue, {
             method : 'PUT', 
             headers: { 'Content-Type': 'application/json'},
         })
         props.setTasks((ts) => ts.map(
-            (task) => (newTask.id === task.id ? newTask : task)
+            (task) => (newTask.id === task.id ? task2 : task)
         ));
     }
 
