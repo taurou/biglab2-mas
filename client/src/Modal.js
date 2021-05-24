@@ -19,8 +19,8 @@ function FormModal(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <TaskForm tasks={props.taskList} lastId={props.lastId} task={props.task} addOrEdit={props.addOrEdit}
-             setLastId={props.setLastId} closeModal={props.onHide} isAdding={props.isAdding} />
+            <TaskForm tasks={props.taskList} task={props.task} addOrEdit={props.addOrEdit}
+                      closeModal={props.onHide} isAdding={props.isAdding} />
         </Modal.Body>
       </Modal>
     );
@@ -31,8 +31,8 @@ function FormModal(props) {
     const [description, setDescription] = useState(props.isAdding ? '' : props.task.description) ; 
     const [important, setImportant] = useState(props.isAdding ? false : props.task.important) ;
     const [privatez, setPrivatez] = useState(props.isAdding ? false : props.task.private) ;
-    const [deadline, setDeadline] = useState(props.isAdding ? '' : props.task.deadline.format("YYYY-MM-DD")) ;
-    const [hour, setHour] = useState(props.isAdding ? '' : props.task.deadline.format("HH:mm")) ;
+    const [deadline, setDeadline] = useState(props.isAdding ? '' : dayjs(props.task.deadline).format("YYYY-MM-DD")) ;
+    const [hour, setHour] = useState(props.isAdding ? '' : dayjs(props.task.deadline).format("HH:mm")) ;
     const [errorMessage, setErrorMessage] = useState('');
     const [concluded, setConcluded] = useState(false);
 
@@ -63,7 +63,7 @@ function FormModal(props) {
 
           setConcluded(true);
           setErrorMessage('');
-          const task = {description: description, important: important, deadline: (deadline+"T"+hour), private: privatez, userid: 1};
+          const task = {id: props.task.id, description: description, important: important, deadline: (deadline+"T"+hour), private: privatez, userid: 1};
           props.addOrEdit(task);
           props.closeModal();
         }      
@@ -77,7 +77,7 @@ function FormModal(props) {
         Hour: <Form.Control type = 'time' value={hour} onChange={ev=>setHour(ev.target.value)}/> <br/>
 
         <Form.Check type="checkbox" checked={important} id="important" custom onChange={(event)=>{setImportant(event.target.checked)}} label="Important" /><br />
-        <Form.Check type="checkbox" checked={privatez} id= "private" custom onChange={(event)=>{setPrivatez(event.target.checked)}} label="Private" /><br />
+        <Form.Check type="checkbox" checked={privatez} id="private" custom onChange={(event)=>{setPrivatez(event.target.checked)}} label="Private" /><br />
         <span style={{color:'red'}} >{errorMessage}</span>  {/* TODO: spostare style nel css - ingrandire il testo e mettere il colore rosso nel css*/}
         <Modal.Footer>
         <Button onClick={props.closeModal} variant="secondary">Cancel</Button><br/>

@@ -97,7 +97,6 @@ app.put('/api/tasks/:id', async (req, res) => {
     let deadline = req.body.deadline;
     let privatez = req.body.private;
     let userid = req.body.userid;
-    let checked = req.body.checked;
 
     try {
         await dao.updateTask({id: id, description: description, important: important, deadline: deadline, private: privatez, userid: userid});

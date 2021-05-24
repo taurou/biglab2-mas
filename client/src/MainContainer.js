@@ -18,6 +18,32 @@ function MainContainer(props) {
         props.setTasks((ts) => ts.filter(task => task.id !== taskID))
     }
 
+
+    async function editTask(newTask) {
+        await fetch('/api/tasks/'+newTask.id, {
+            method : 'PUT', 
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(newTask)
+        })
+
+        props.setTasks((ts) => ts.map(
+            (task) => (newTask.id === task.id ? newTask: task)
+        ));
+    }
+
+    // TODO
+    async function handleCheckbox(newTask, event) {
+        
+        let checkedValue = event.target.checked === true ? 1 : 0;
+        await fetch('/api/tasks/'+newTask.id+'/'+checkedValue, {
+            method : 'PUT', 
+            headers: { 'Content-Type': 'application/json'},
+        })
+        props.setTasks((ts) => ts.map(
+            (task) => (newTask.id === task.id ? newTask : task)
+        ));
+    }
+
     useEffect(() => {
         props.setSelected(props.title);
     });
@@ -34,6 +60,8 @@ function MainContainer(props) {
                         task={t}
                         setTask={props.setTasks}
                         deleteTask={deleteTask}
+                        editTask={editTask}
+                        handleCheckbox={handleCheckbox}
                         selection={props.title}
                         setTitle={props.setTitle}
                     />
@@ -53,6 +81,8 @@ function RowFiltered(props) {
                         task={props.task}
                         setTask={props.setTask}
                         deleteTask={props.deleteTask}
+                        editTask={props.editTask}
+                        handleCheckbox={props.handleCheckbox}
             />
             );
         } else {
@@ -66,10 +96,12 @@ function TaskRow(props) {
         <ListGroup.Item >
 
             <Row>
-                <RowData task={props.task} taskID={props.taskID} />
+                <RowData task={props.task} taskID={props.taskID} handleCheckbox={props.handleCheckbox}/>
                 <RowControls task={props.task}
                 setTask={props.setTask}
-                deleteTask={props.deleteTask}/>
+                deleteTask={props.deleteTask}
+                editTask={props.editTask}
+                />
             </Row>
         </ListGroup.Item>
     );
@@ -80,8 +112,8 @@ function RowData(props) {
     return (<>
       <Col>
             <Form inline>
-                <Form.Check type="checkbox" id={props.task.id} label = {props.task.description} custom
-                className = {props.task.important === 1 ? 'important' : ''}
+                <Form.Check type="checkbox" checked={props.task.checked === 1 ? true : false} id={props.task.id} label = {props.task.description} custom
+                className = {props.task.important === 1 ? 'important' : ''} onClick={(event) => {props.handleCheckbox(props.task, event)}}
                 />
             </Form>
       </Col>      <Col> {(() => {
@@ -110,12 +142,6 @@ function RowControls(props) {
     const [isHoveredPencil, setIsHoveredPencil] = useState(false);
     const [isHoveredTrash, setIsHoveredTrash] = useState(false);
 
-    const editTask = (newTask) => {
-        props.setTask((ts) => ts.map(
-            (task) => (task.id === props.task.id ? newTask: task)
-        ));
-    }
-
     return (
         <Col lg="2">
             <Form.Label className="col text-right">
@@ -131,7 +157,7 @@ function RowControls(props) {
                         setTask={props.setTask}
                         show={modalShow}
                         onHide={() => setModalShow(false)}
-                        addOrEdit = {editTask}
+                        addOrEdit={props.editTask}
                     />
 
                 <img src={isHoveredTrash? trash : staticTrash } width="25" height="25" alt="Trash"
