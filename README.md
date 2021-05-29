@@ -48,11 +48,11 @@ Response body:
 [ {id, description, deadline, important, private, checked, userid}, {id, description, deadline, important, private, checked, userid} ]
 ```
 
-### Get a task
+### Get tasks
 
 #### Get task by id
 
-URL: `/api/tasks/:id`
+URL: `/api/tasks/id/:id`
 
 HTTP Method: GET
 
@@ -67,30 +67,13 @@ Response body:
 {id, description, deadline, important, private, checked, userid}
 ```
 
-#### Get task by deadline
-
-URL: `/api/tasks/:deadline`
-
-HTTP Method: GET
-
-Description: Retrieve the attributes of the task with the specified deadline
-
-Request body: EMPTY
-
-Response: 
-
-Response body:
-```
-{id, description, deadline, important, private, checked, userid}
-```
-
 #### Get important tasks
 
-URL: `/api/tasks/:important`
+URL: `/api/tasks/important`
 
 HTTP Method: GET
 
-Description: Retrieve important tasks
+Description: Retrieve the list of important tasks
 
 Request body: EMPTY
 
@@ -98,16 +81,16 @@ Response:
 
 Response body:
 ```
-{id, description, deadline, important, private, checked, userid}
+[ {id, description, deadline, important, private, checked, userid}, {id, description, deadline, important, private, checked, userid} ]
 ```
 
 #### Get private tasks
 
-URL: `/api/tasks/:private`
+URL: `/api/tasks/private`
 
 HTTP Method: GET
 
-Description: Retrieve private tasks
+Description: Retrieve the list of private tasks
 
 Request body: EMPTY
 
@@ -115,7 +98,40 @@ Response:
 
 Response body:
 ```
-{id, description, deadline, important, private, checked, userid}
+[ {id, description, deadline, important, private, checked, userid}, {id, description, deadline, important, private, checked, userid} ]
+```
+#### Get tasks with deadline = today
+
+URL: `/api/tasks/today`
+
+HTTP Method: GET
+
+Description: Retrieve the list of tasks with deadline corrisponding to the current day
+
+Request body: EMPTY
+
+Response: 
+
+Response body:
+```
+[ {id, description, deadline, important, private, checked, userid}, {id, description, deadline, important, private, checked, userid} ]
+
+```
+#### Get tasks for the next week
+
+URL: `/api/tasks/nextdays`
+
+HTTP Method: GET
+
+Description: Retrieve the list of task with deadline between the next day and the next seven days.
+
+Request body: EMPTY
+
+Response: 
+
+Response body:
+```
+[ {id, description, deadline, important, private, checked, userid}, {id, description, deadline, important, private, checked, userid} ]
 ```
 
 ### Add a new task
@@ -134,7 +150,7 @@ Response body: EMPTY
 
 ### Update an existing task
 
-URL: `/api/tasks/:id`
+URL: `/api/tasks/id/:id`
 
 HTTP Method: PUT
 
@@ -148,7 +164,7 @@ Response Body: EMPTY
 
 ### Check/Uncheck a task
 
-URL: `/api/tasks/:id/:checked`
+URL: `/api/tasks/id/:id/:checked`
 
 HTTP Method: PUT
 
@@ -163,7 +179,7 @@ Response body: EMPTY
 
 ### Delete an existing task
 
-URL: `/api/tasks/:id`
+URL: `/api/tasks/id/:id`
 
 HTTP Method: DELETE
 
