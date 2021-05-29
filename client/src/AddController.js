@@ -6,16 +6,15 @@ function AddController(props) {
     const [modalShow, setModalShow] = useState(false);
 
     async function addTask(newTask) {
-      newTask.important = newTask.important === true ? 1 : 0;
-      newTask.private = newTask.private === true ? 1 : 0;
       await fetch('/api/tasks', {method : 'POST', 
         headers: {
           'Content-Type': 'application/json',
           },
         body: JSON.stringify(newTask)
       });
-    
-      props.setTask(oldTasks => [...oldTasks, newTask]);
+     // props.setTask(oldTasks => [...oldTasks, newTask]);
+     props.setUpdate(true);
+
     }
 
     return (

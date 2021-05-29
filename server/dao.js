@@ -10,7 +10,7 @@ const db = new sqlite.Database('tasks.db', (err) => {
 // get all tasks
 exports.listTasks = () => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM tasks';
+    const sql = 'SELECT * FROM tasks ORDER BY DATETIME(deadline)';
     db.all(sql, [], (err, rows) => {
       if (err) {
         reject(err);
@@ -25,7 +25,7 @@ exports.listTasks = () => {
 // get important tasks
 exports.getImportantTasks = () => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM tasks WHERE important = 1';
+    const sql = 'SELECT * FROM tasks WHERE important = 1 ORDER BY DATETIME(deadline)';
     db.all(sql, [], (err, rows) => {
       if (err) {
         reject(err);
@@ -40,7 +40,7 @@ exports.getImportantTasks = () => {
 // get private tasks
 exports.getPrivateTasks = () => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM tasks WHERE private = 1';
+    const sql = 'SELECT * FROM tasks WHERE private = 1 ORDER BY DATETIME(deadline)';
     db.all(sql, [], (err, rows) => {
       if (err) {
         reject(err);
@@ -54,7 +54,7 @@ exports.getPrivateTasks = () => {
 
 exports.getTaskByDeadline = (deadline) => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM tasks WHERE deadline=?';
+    const sql = 'SELECT * FROM tasks WHERE deadline=? ORDER BY DATETIME(deadline)';
     db.get(sql, [deadline], (err, row) => {
       if (err) {
         reject(err);
@@ -72,7 +72,7 @@ exports.getTaskByDeadline = (deadline) => {
 
 exports.getNextDaysTasks = () => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM tasks WHERE DATE(deadline) > DATE("now") AND DATE(deadline) <= DATE("now","+7 days")';
+    const sql = 'SELECT * FROM tasks WHERE DATE(deadline) > DATE("now") AND DATE(deadline) <= DATE("now","+7 days") ORDER BY DATETIME(deadline)';
     db.all(sql, [], (err, rows) => {
       if (err) {
         reject(err);
@@ -86,7 +86,7 @@ exports.getNextDaysTasks = () => {
 
 exports.getTodayTasks = () => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM tasks WHERE DATE(deadline) = DATE("now")';
+    const sql = 'SELECT * FROM tasks WHERE DATE(deadline) = DATE("now") ORDER BY DATETIME(deadline)';
     db.all(sql, [], (err, rows) => {
       if (err) {
         reject(err);

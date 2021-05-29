@@ -9,6 +9,8 @@ import { Switch, Route } from 'react-router-dom';
 function PageComponents(props) {
 
     const [selected, setSelected] = useState("All");
+    const [oldSelected, setOldSelected] = useState(" ");
+
     const [tasksState, setTasksState] = useState([]);
     const [update, setUpdate] = useState(false);
 
@@ -22,8 +24,10 @@ function PageComponents(props) {
             })
             const responseJSON = await response.json();
             setTasksState(responseJSON);
+            setOldSelected(selected);
             setUpdate(false);
         }
+        if(update===true || oldSelected!==selected)
             switch(selected) {
                 case 'All':
                     showTasksByFilter('api/tasks');
@@ -71,7 +75,7 @@ function PageComponents(props) {
 
                 </Switch>
             </Row>
-         <AddController taskList={tasksState} setTask={setTasksState} />
+         <AddController setUpdate={setUpdate} taskList={tasksState} setTask={setTasksState} />
         </>
     );
 }
