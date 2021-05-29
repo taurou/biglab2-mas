@@ -10,7 +10,7 @@ function PageComponents(props) {
 
     const [selected, setSelected] = useState("All");
     const [tasksState, setTasksState] = useState([]);
-    const [update, setUpdate] = useState(true);
+    const [update, setUpdate] = useState(false);
 
     useEffect(() => {
     
@@ -22,6 +22,7 @@ function PageComponents(props) {
             })
             const responseJSON = await response.json();
             setTasksState(responseJSON);
+            setUpdate(false);
         }
             switch(selected) {
                 case 'All':
@@ -44,7 +45,7 @@ function PageComponents(props) {
                     break;
             }
         
-    }, [selected]);
+    }, [update, selected]);
 
         return (
         <>   
@@ -56,16 +57,16 @@ function PageComponents(props) {
                         <MainContainer title="Important" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
                     <Route exact path="/Today" >
-                        <MainContainer title="Today" setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="Today" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
                     <Route exact path="/Next7Days" >
-                        <MainContainer title="Next 7 Days" setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="Next 7 Days" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
                     <Route exact path="/Private" >
-                        <MainContainer title="Private" setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="Private" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
                     <Route path={["/All", "/"]}  >
-                        <MainContainer title="All" setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="All" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
 
                 </Switch>

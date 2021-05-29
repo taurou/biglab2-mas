@@ -20,7 +20,8 @@ function MainContainer(props) {
         headers: {
             'Content-Type': 'application/json',
             }});
-        props.setTasks((ts) => ts.filter(task => task.id !== taskID))
+        props.setUpdate(true);
+        // props.setTasks((ts) => ts.filter(task => task.id !== taskID))
     }
 
 
@@ -31,9 +32,11 @@ function MainContainer(props) {
             body: JSON.stringify(newTask)
         })
 
-        props.setTasks((ts) => ts.map(
-            (task) => (newTask.id === task.id ? newTask: task)
-        ));
+        // props.setTasks((ts) => ts.map(
+        //     (task) => (newTask.id === task.id ? newTask: task)
+        // ));
+        props.setUpdate(true);
+
     }
 
     async function handleCheckbox(newTask, event) {
@@ -44,9 +47,11 @@ function MainContainer(props) {
             method : 'PUT', 
             headers: { 'Content-Type': 'application/json'},
         })
-        props.setTasks((ts) => ts.map(
+        props.setTasks((ts) => ts.map(                              //questo l'ho lasciato perché la checkbox deve essere super reattiva
             (task) => (newTask.id === task.id ? task2 : task)
         ));
+        props.setUpdate(true);
+
 
     }
 

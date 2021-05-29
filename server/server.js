@@ -101,9 +101,9 @@ app.put('/api/tasks/id/:id', async (req, res) => {
 
     let id = req.params.id;
     let description = req.body.description;
-    let important = req.body.important === true ? 1 : 0;
+    let important = req.body.important ;
     let deadline = req.body.deadline;
-    let privatez = req.body.private === true ? 1 : 0;
+    let privatez = req.body.private ;
     let userid = req.body.userid;
 
     try {
