@@ -8,10 +8,15 @@ import FormModal from './Modal.js';
 import staticTrash from './static-trash.png';
 import staticPencil from './static-pencil.png';
 
+// TODO:
+// 1. sistemare gli important e private (booleani quando facciamo edit)
+// 2. fare il refresh quando facciamo edit/add/delete
+
+
 function MainContainer(props) {
 
     async function deleteTask(taskID) {
-        await fetch('/api/tasks/'+taskID, {method : 'DELETE', 
+        await fetch('/api/tasks/id/'+taskID, {method : 'DELETE', 
         headers: {
             'Content-Type': 'application/json',
             }});
@@ -20,7 +25,7 @@ function MainContainer(props) {
 
 
     async function editTask(newTask) {
-        await fetch('/api/tasks/'+newTask.id, {
+        await fetch('/api/tasks/id/'+newTask.id, {
             method : 'PUT', 
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(newTask)
@@ -31,40 +36,39 @@ function MainContainer(props) {
         ));
     }
 
-    // TODO
     async function handleCheckbox(newTask, event) {
-        
+
         let checkedValue = event.target.checked === true ? 1 : 0;
-        let task2 = {id: newTask.id, description: newTask.description, important: newTask.important, deadline: newTask.deadline, private: newTask.privatez, checked: checkedValue, userid: 1};
-        await fetch('/api/tasks/'+newTask.id+'/'+checkedValue, {
+        let task2 = {id: newTask.id, description: newTask.description, important: newTask.important, deadline: newTask.deadline, private: newTask.private, checked: checkedValue, userid: 1};
+        await fetch('/api/tasks/id/'+newTask.id+'/'+checkedValue, {
             method : 'PUT', 
             headers: { 'Content-Type': 'application/json'},
         })
         props.setTasks((ts) => ts.map(
             (task) => (newTask.id === task.id ? task2 : task)
         ));
+
     }
 
     useEffect(() => {
         props.setSelected(props.title);
     });
 
-     
+
     return (
         <Col>
             <Container id="tasks">
                 <h1>{props.title}</h1>
 
                 <ListGroup className="TaskList" variant="flush">
-                    {props.tasks.map(t => <RowFiltered
+                    
+                    {props.tasks.map(t => <TaskRow
                         key={t.id}
                         task={t}
-                        setTask={props.setTasks}
                         deleteTask={deleteTask}
                         editTask={editTask}
                         handleCheckbox={handleCheckbox}
-                        selection={props.title}
-                        setTitle={props.setTitle}
+        
                     />
                     )}
                 </ListGroup>
@@ -74,6 +78,21 @@ function MainContainer(props) {
 }
 
 function RowFiltered(props) {
+
+    if(props.selection === 'Important') {
+        props.showImportantTasks();
+        return (
+            <TaskRow
+                    task={props.task}
+                    deleteTask={props.deleteTask}
+                    editTask={props.editTask}
+                    handleCheckbox={props.handleCheckbox}
+        />
+        )} else return null;
+    // if(props)
+
+
+/*
     if((props.selection === 'Important' && props.task.important === 1) || (props.selection === 'All') ||
         (props.selection === 'Private' && props.task.private === 1) || (props.selection === 'Today' && isToday(dayjs(props.task.deadline))) ||
         (props.selection === 'Next 7 Days' && isNextWeek(dayjs(props.task.deadline)))) {
@@ -88,7 +107,7 @@ function RowFiltered(props) {
             );
         } else {
             return null;
-        }
+        }*/
     }
 
 function TaskRow(props) {
@@ -99,7 +118,6 @@ function TaskRow(props) {
             <Row>
                 <RowData task={props.task} taskID={props.taskID} handleCheckbox={props.handleCheckbox}/>
                 <RowControls task={props.task}
-                setTask={props.setTask}
                 deleteTask={props.deleteTask}
                 editTask={props.editTask}
                 />

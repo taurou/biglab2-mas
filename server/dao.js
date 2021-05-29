@@ -7,7 +7,7 @@ const db = new sqlite.Database('tasks.db', (err) => {
   if(err) throw err;
 });
 
-// get all courses
+// get all tasks
 exports.listTasks = () => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM tasks';
@@ -70,6 +70,34 @@ exports.getTaskByDeadline = (deadline) => {
   });
 };
 
+exports.getNextDaysTasks = () => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM tasks WHERE DATE(deadline) > DATE("now") AND DATE(deadline) <= DATE("now","+7 days")';
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private, checked: t.checked, userid: t.userid }));
+      resolve(tasks);      
+    });
+  });
+};
+
+exports.getTodayTasks = () => {
+  return new Promise((resolve, reject) => {
+    const sql = 'SELECT * FROM tasks WHERE DATE(deadline) = DATE("now")';
+    db.all(sql, [], (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private, checked: t.checked, userid: t.userid }));
+      resolve(tasks); 
+    });
+  });
+};
+
 exports.getTaskById = (id) => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM tasks WHERE id=?';
@@ -87,7 +115,6 @@ exports.getTaskById = (id) => {
     });
   });
 };
-
 
 // add a new task
 exports.createTask = (task) => {

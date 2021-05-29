@@ -10,15 +10,41 @@ function PageComponents(props) {
 
     const [selected, setSelected] = useState("All");
     const [tasksState, setTasksState] = useState([]);
+    const [update, setUpdate] = useState(true);
 
     useEffect(() => {
-        async function loadTasks() {
-            const response = await fetch('/api/tasks', {method : 'GET'});
+    
+        async function showTasksByFilter(url) {
+        
+            const response = await fetch(url, {
+                method : 'GET', 
+                headers: { 'Content-Type': 'application/json'},
+            })
             const responseJSON = await response.json();
             setTasksState(responseJSON);
         }
-        loadTasks();
-    }, []);
+            switch(selected) {
+                case 'All':
+                    showTasksByFilter('api/tasks');
+                    break;
+                case 'Important':
+                    showTasksByFilter('api/tasks/important');
+                    break;
+                case 'Private':
+                    showTasksByFilter('api/tasks/private');
+                    break;
+                case 'Today':
+                    showTasksByFilter('api/tasks/today');
+                    break;
+                case 'Next 7 Days':
+                    showTasksByFilter('api/tasks/nextdays');
+                    break;
+                default:
+                    showTasksByFilter('api/tasks');
+                    break;
+            }
+        
+    }, [selected]);
 
         return (
         <>   
@@ -27,7 +53,7 @@ function PageComponents(props) {
 
                 <Switch>
                     <Route exact path="/Important" >
-                        <MainContainer title="Important" setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="Important" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
                     <Route exact path="/Today" >
                         <MainContainer title="Today" setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />

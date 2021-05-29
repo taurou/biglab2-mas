@@ -24,7 +24,7 @@ app.get('/api/tasks', async (req, res) => {
 });
 
 // retrieve task with id
-app.get('/api/tasks/:id', async (req, res) => {
+app.get('/api/tasks/id/:id', async (req, res) => {
 
     const id = req.params.id;
     try {
@@ -36,35 +36,43 @@ app.get('/api/tasks/:id', async (req, res) => {
 });
 
 // retrieve important tasks
-app.get('/api/tasks/:important', async (req, res) => {
+app.get('/api/tasks/important', async (req, res) => {
 
-    const important = req.params.important;
     try {
-        let task = await dao.getImportantTasks(important);
-        res.json(task);
+        let tasks = await dao.getImportantTasks();
+        res.json(tasks);
     } catch (error) {
         res.status(500).json(error);
     }
 });
 
 // retrieve private tasks
-app.get('/api/tasks/:private', async (req, res) => {
+app.get('/api/tasks/private', async (req, res) => {
 
-    const privatez = req.params.private;
     try {
-        let task = await dao.getPrivateTasks(privatez);
+        let tasks = await dao.getPrivateTasks();
+        res.json(tasks);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
+// TODO
+// retrieve task with deadline
+app.get('/api/tasks/today', async (req, res) => {
+
+    try {
+        let task = await dao.getTodayTasks();
         res.json(task);
     } catch (error) {
         res.status(500).json(error);
     }
 });
 
-// retrieve task with deadline
-app.get('/api/tasks/:deadline', async (req, res) => {
+app.get('/api/tasks/nextdays', async (req, res) => {
 
-    const deadline = req.params.deadline;
     try {
-        let task = await dao.getTaskByDeadline(deadline);
+        let task = await dao.getNextDaysTasks();
         res.json(task);
     } catch (error) {
         res.status(500).json(error);
@@ -89,13 +97,13 @@ app.post('/api/tasks', async (req, res) => {
 });
 
 // update an existing task
-app.put('/api/tasks/:id', async (req, res) => {
+app.put('/api/tasks/id/:id', async (req, res) => {
 
     let id = req.params.id;
     let description = req.body.description;
-    let important = req.body.important;
+    let important = req.body.important === true ? 1 : 0;
     let deadline = req.body.deadline;
-    let privatez = req.body.private;
+    let privatez = req.body.private === true ? 1 : 0;
     let userid = req.body.userid;
 
     try {
@@ -107,7 +115,7 @@ app.put('/api/tasks/:id', async (req, res) => {
 });
 
 // mark an existing task as complete/uncompleted
-app.put('/api/tasks/:id/:checked', async (req, res) => {
+app.put('/api/tasks/id/:id/:checked', async (req, res) => {
 
     let id = req.params.id;
     let checked = req.params.checked;
@@ -121,7 +129,7 @@ app.put('/api/tasks/:id/:checked', async (req, res) => {
 });
 
 // delete an existing task
-app.delete('/api/tasks/:id', async (req, res) => {
+app.delete('/api/tasks/id/:id', async (req, res) => {
 
     const id = req.params.id;
     try {
