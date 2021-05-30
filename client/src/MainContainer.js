@@ -127,7 +127,7 @@ function RowData(props) {
         })()}
       </Col>
       <Col>
-        <Form.Label className="col text-right">{formatDeadline(dayjs(props.task.deadline))}</Form.Label>
+        <Form.Label className="col text-right">{props.task.deadline === null ? '' : formatDeadline(dayjs(props.task.deadline))}</Form.Label>
       </Col>
     </>
     );
@@ -175,8 +175,7 @@ function isToday(taskDeadline) {
 
 function formatDeadline(taskDeadline) {
 
-    if(!taskDeadline) return '--o--';
-    else if(isToday(taskDeadline)) {
+    if(isToday(taskDeadline)) {
         return taskDeadline.format('[Today at] HH:mm');
     } else {
         return taskDeadline.format('dddd DD MMMM YYYY [at] HH:mm');

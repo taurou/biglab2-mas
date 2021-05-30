@@ -43,12 +43,15 @@ function FormModal(props) {
           setErrorMessage('Please, write a description');
           valid = false;
         }
-        else if (deadline  === '') {
-          setErrorMessage('Please, set a deadline');
+        else if (deadline === '' && hour === ''){
+          valid = true;                           //TODO PROVARE
+        }
+        else if (hour === '' && deadline !== '' ) {
+          setErrorMessage('If you insert a deadline set also an hour');
           valid = false;
         }
-        else if (hour === '' ) {
-          setErrorMessage('Please, set a hour');
+        else if (hour !== '' && deadline === '' ) {
+          setErrorMessage('If you insert an hour set also a deadline');
           valid = false;
         }
         else if(dayjs(deadline).isBefore(dayjs(),'day')) {
@@ -63,7 +66,7 @@ function FormModal(props) {
 
           setConcluded(true);
           setErrorMessage('');
-          const task = {id: props.isAdding ? 0 : props.task.id, description: description, important: important, deadline: (deadline+"T"+hour), private: privatez, userid: 1};
+          const task = {id: props.isAdding ? 0 : props.task.id, description: description, important: important, deadline: deadline === '' ? '' :  (deadline+"T"+hour), private: privatez, userid: 1};
           props.addOrEdit(task);
           props.closeModal();
         }      
