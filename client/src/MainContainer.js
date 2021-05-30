@@ -57,7 +57,8 @@ function MainContainer(props) {
 
     useEffect(() => {
         props.setSelected(props.title);
-    });
+       props.setUpdate(true);
+    } , [props]);
 
 
     return (
@@ -82,38 +83,8 @@ function MainContainer(props) {
     );
 }
 
-function RowFiltered(props) {
-
-    if(props.selection === 'Important') {
-        props.showImportantTasks();
-        return (
-            <TaskRow
-                    task={props.task}
-                    deleteTask={props.deleteTask}
-                    editTask={props.editTask}
-                    handleCheckbox={props.handleCheckbox}
-        />
-        )} else return null;
-    // if(props)
 
 
-/*
-    if((props.selection === 'Important' && props.task.important === 1) || (props.selection === 'All') ||
-        (props.selection === 'Private' && props.task.private === 1) || (props.selection === 'Today' && isToday(dayjs(props.task.deadline))) ||
-        (props.selection === 'Next 7 Days' && isNextWeek(dayjs(props.task.deadline)))) {
-            return (
-                <TaskRow
-                        task={props.task}
-                        setTask={props.setTask}
-                        deleteTask={props.deleteTask}
-                        editTask={props.editTask}
-                        handleCheckbox={props.handleCheckbox}
-            />
-            );
-        } else {
-            return null;
-        }*/
-    }
 
 function TaskRow(props) {
 
@@ -137,7 +108,7 @@ function RowData(props) {
       <Col>
             <Form inline>
                 <Form.Check type="checkbox" checked={props.task.checked === 1 ? true : false} id={props.task.id} label = {props.task.description} custom
-                className = {props.task.important === 1 ? 'important' : ''} onClick={(event) => {props.handleCheckbox(props.task, event)}}
+                className = {props.task.important === 1 ? 'important' : ''} onChange={(event) => {props.handleCheckbox(props.task, event)}}
                 />
             </Form>
       </Col>      <Col> {(() => {
@@ -210,11 +181,5 @@ function formatDeadline(taskDeadline) {
     }
 }
 
-function isNextWeek(taskDeadline) {
-    const tomorrow = dayjs().add(1, 'day');
-    const nextWeek = dayjs().add(7, 'day');
-    const ret = taskDeadline && ( !taskDeadline.isBefore(tomorrow,'day') && !taskDeadline.isAfter(nextWeek,'day') );
-    return ret;
-}
 
 export default MainContainer;

@@ -4,15 +4,15 @@ import { useState, useEffect } from 'react';
 import SideContainer from './SideContainer.js';
 import MainContainer from './MainContainer.js';
 import AddController from './AddController.js';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 
 function PageComponents(props) {
 
-    const [selected, setSelected] = useState("All");
-    const [oldSelected, setOldSelected] = useState(" ");
+    const location = useLocation();
 
+    const [selected, setSelected] = useState("All");
     const [tasksState, setTasksState] = useState([]);
-    const [update, setUpdate] = useState(false);
+    const [update, setUpdate] = useState(true);
 
     useEffect(() => {
     
@@ -24,10 +24,9 @@ function PageComponents(props) {
             })
             const responseJSON = await response.json();
             setTasksState(responseJSON);
-            setOldSelected(selected);
             setUpdate(false);
         }
-        if(update===true || oldSelected!==selected)
+        if(update===true){
             switch(selected) {
                 case 'All':
                     showTasksByFilter('api/tasks');
@@ -48,6 +47,7 @@ function PageComponents(props) {
                     showTasksByFilter('api/tasks');
                     break;
             }
+        }
         
     }, [update, selected]);
 
@@ -58,19 +58,19 @@ function PageComponents(props) {
 
                 <Switch>
                     <Route exact path="/Important" >
-                        <MainContainer title="Important" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="Important" actualLink={location.state} setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
                     <Route exact path="/Today" >
-                        <MainContainer title="Today" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="Today" actualLink={location.state} setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
                     <Route exact path="/Next7Days" >
-                        <MainContainer title="Next 7 Days" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="Next 7 Days" actualLink={location.state} setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
                     <Route exact path="/Private" >
-                        <MainContainer title="Private" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="Private" actualLink={location.state} setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
                     <Route path={["/All", "/"]}  >
-                        <MainContainer title="All" setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
+                        <MainContainer title="All" actualLink={location.state} setUpdate={setUpdate} setSelected={setSelected} tasks={tasksState} setTasks={setTasksState} />
                     </Route>
 
                 </Switch>
