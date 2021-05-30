@@ -54,11 +54,13 @@ function MainContainer(props) {
 
 
     }
+//TODO FAR VEDERE
+    const { setUpdate, setSelected, actualLink, title } = props;
 
     useEffect(() => {
-        props.setSelected(props.title);
-       props.setUpdate(true);
-    } , [props]);
+        setSelected(title);
+        setUpdate(true);
+    } , [setUpdate, setSelected, actualLink, title]);
 
 
     return (
