@@ -4,13 +4,12 @@ const express = require('express');
 const morgan = require('morgan')
 
 const PORT = 3000;
-const dao = require('./dao'); // module for accessing the DB
+const dao = require('./dao'); 
 const app = express();
 
 app.use(morgan('dev'));
-app.use(express.json()); // parse the body in JSON format => populate req.body attributes
+app.use(express.json()); 
 
-// we should validation for parameters?
 
 // retrieve all tasks
 app.get('/api/tasks', async (req, res) => {
@@ -57,8 +56,19 @@ app.get('/api/tasks/private', async (req, res) => {
     }
 });
 
-// TODO
 // retrieve task with deadline
+app.get('/api/tasks/deadline/:deadline', async (req, res) => {
+    const deadline = req.params.deadline;
+    try {
+        let task = await dao.getTaskByDeadline(deadline);
+        res.json(task);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
+
+//retrieve today's tasks
 app.get('/api/tasks/today', async (req, res) => {
 
     try {
@@ -69,6 +79,7 @@ app.get('/api/tasks/today', async (req, res) => {
     }
 });
 
+//retrieve next week's tasks
 app.get('/api/tasks/nextdays', async (req, res) => {
 
     try {

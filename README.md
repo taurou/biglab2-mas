@@ -100,7 +100,26 @@ Response body:
 ```
 [ {id, description, deadline, important, private, checked, userid}, {id, description, deadline, important, private, checked, userid} ]
 ```
-#### Get tasks with deadline = today
+#### Get tasks with deadline 
+
+##### Get tasks by deadline
+
+URL: `/api/tasks/deadline/:deadline`
+
+HTTP Method: GET
+
+Description: Retrieve the list of tasks with a given deadline
+
+Request body: EMPTY
+
+Response: 
+
+Response body:
+```
+[ {id, description, deadline, important, private, checked, userid}, {id, description, deadline, important, private, checked, userid} ]
+```
+
+##### Get today's tasks
 
 URL: `/api/tasks/today`
 
@@ -117,7 +136,7 @@ Response body:
 [ {id, description, deadline, important, private, checked, userid}, {id, description, deadline, important, private, checked, userid} ]
 
 ```
-#### Get tasks for the next week
+##### Get tasks for the next 7 days
 
 URL: `/api/tasks/nextdays`
 

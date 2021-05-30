@@ -55,17 +55,14 @@ exports.getPrivateTasks = () => {
 exports.getTaskByDeadline = (deadline) => {
   return new Promise((resolve, reject) => {
     const sql = 'SELECT * FROM tasks WHERE deadline=? ORDER BY DATETIME(deadline)';
-    db.get(sql, [deadline], (err, row) => {
+    db.all(sql, [deadline], (err, rows) => {
       if (err) {
         reject(err);
         return;
       }
-      if (row == undefined) {
-        reject({error: 'Deadline not found.'});
-      } else {
-        const task = { id : row.id, description: row.description, important: row.important, deadline : row.deadline, private: row.private, checked: row.checked, userid: row.userid };
-        resolve(task);
-      }
+      const tasks = rows.map((t) => ({ id: t.id, description: t.description, important: t.important, deadline : t.deadline, private: t.private, checked: t.checked, userid: t.userid }));
+      resolve(tasks);
+      
     });
   });
 };
