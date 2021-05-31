@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 // DAO operations for validating users
 
 exports.getUser = (email, password) => {
+  alert(ciao);
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE email = ?';
         db.get(sql, [email], (err, row) => {
@@ -14,9 +15,9 @@ exports.getUser = (email, password) => {
             else if (row === undefined)
                 resolve(false); // user not found
             else {
-                bcrypt.compare(password, row.password).then(result => {
+              bcrypt.compare(password, row.password).then(result => {
                     if (result) // password matches
-                        resolve({id: row.id, username: row.email, name:row.name});
+                        resolve({id: row.id, email: row.email});
                     else
                         resolve(false); // password not matching
                 })

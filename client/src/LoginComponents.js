@@ -1,20 +1,20 @@
 import { Form, Button, Alert, Col } from 'react-bootstrap';
 import { useState } from 'react';
-//import { Redirect } from 'react-router';
 
 function LoginForm(props) {
-  const [username, setUsername] = useState('');
+
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('') ;
   
   const handleSubmit = (event) => {
       event.preventDefault();
       setErrorMessage('');
-      const credentials = { username, password };
+      const credentials = { email, password };
       
       // SOME VALIDATION, ADD MORE!!!
       let valid = true;
-      if(username === '' || password === '' || password.length < 6)
+      if(email === '' || password === '' || password.length < 6)
           valid = false;
       
       if(valid)
@@ -22,7 +22,6 @@ function LoginForm(props) {
         props.login(credentials);
       }
       else {
-        // show a better error message...
         setErrorMessage('Error(s) in the form, please fix it.')
       }
   };
@@ -30,9 +29,9 @@ function LoginForm(props) {
   return (
     <Form>
       {errorMessage ? <Alert variant='danger'>{errorMessage}</Alert> : ''}
-      <Form.Group controlId='username'>
-          <Form.Label>email</Form.Label>
-          <Form.Control type='email' value={username} onChange={ev => setUsername(ev.target.value)} />
+      <Form.Group controlId='email'>
+          <Form.Label>Email</Form.Label>
+          <Form.Control type='email' value={email} onChange={ev => setEmail(ev.target.value)} />
       </Form.Group>
       <Form.Group controlId='password'>
           <Form.Label>Password</Form.Label>

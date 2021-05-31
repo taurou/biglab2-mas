@@ -12,16 +12,14 @@ const dao = require('./task-dao');
 const userDao = require('./user-dao');
 const app = express();
 
-
 // set-up the middlewares
 app.use(morgan('dev'));
 app.use(express.json());
 
-
 // initialize and configure passport
-passport.use(new passportLocal.Strategy((username, password, done) => {
+passport.use(new passportLocal.Strategy((email, password, done) => {
   // verification callback for authentication
-  userDao.getUser(username, password).then(user => {
+  userDao.getUser(email, password).then(user => {
     if (user)
       done(null, user);
     else
@@ -46,9 +44,6 @@ passport.deserializeUser((id, done) => {
       done(err, null);
     });
 });
-
-
-
 
 // custom middleware: check if a given request is coming from an authenticated user
 const isLoggedIn = (req, res, next) => {
@@ -95,15 +90,6 @@ app.post('/api/sessions', function(req, res, next) {
   })(req, res, next);
 });
 
-// ALTERNATIVE: if we are not interested in sending error messages...
-/*
-app.post('/api/sessions', passport.authenticate('local'), (req,res) => {
-  // If this function gets called, authentication was successful.
-  // `req.user` contains the authenticated user.
-  res.json(req.user);
-});
-*/
-
 // DELETE /sessions/current 
 // logout
 app.delete('/api/sessions/current', (req, res) => {
@@ -119,9 +105,6 @@ app.get('/api/sessions/current', (req, res) => {
   else
     res.status(401).json({error: 'Unauthenticated user!'});;
 });
-
-
-
 
 // retrieve all tasks
 app.get('/api/tasks', async (req, res) => {
