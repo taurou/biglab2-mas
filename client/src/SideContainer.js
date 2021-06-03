@@ -6,7 +6,7 @@ function SideContainer(props) {
   const names = [ "All", "Important", "Today", "Next 7 Days" ,"Private"];
 
     return   (  
-      <Col id="asid" lg={4} md={4}>
+      <Col id="asid" lg={3} md={3}>
           <ListGroup className= "SidebarList" id="sidebar-elements" variant="flush">  
             {names.map(n => <SideElement filterName={n} chosen = {props.chosen} key={n} />)}
           </ListGroup>

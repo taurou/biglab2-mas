@@ -43,10 +43,18 @@ function App() {
     }
   }
 
+  const doLogOut = async () => {
+      API.logOut();
+      setLoggedIn(false);
+      setMessage({msg: `Logged out!`, type: 'success'});
+
+  }
+
   return (
     <Router>
-      <Container fluid>
-        {loggedIn ? <NavigationBar loggedIn={loggedIn}/> : <Redirect to="/login" />}
+      <Container>
+         <NavigationBar loggedIn={loggedIn} doLogOut={doLogOut}/>
+        {loggedIn ? "" : <Redirect to="/login" />}
         {message && <Row>
           <Alert variant={message.type} onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
         </Row> }
@@ -58,9 +66,9 @@ function App() {
         <Route path="/" render={() =>
         <>
           {loggedIn ?
-            <Row>
+            // <Row>
               <PageComponents loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
-            </Row>
+            // </Row>
           : <Redirect to="/login" /> }
         </>
         } />

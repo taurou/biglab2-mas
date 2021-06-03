@@ -10,16 +10,13 @@ const passportLocal = require('passport-local');
 const PORT = 3000;
 const dao = require('./task-dao'); 
 const userDao = require('./user-dao');
-const app = express();
 
-// set-up the middlewares
-app.use(morgan('dev'));
-app.use(express.json());
+
 
 // initialize and configure passport
-passport.use(new passportLocal.Strategy((email, password, done) => {
+passport.use(new passportLocal.Strategy((username, password, done) => {
   // verification callback for authentication
-  userDao.getUser(email, password).then(user => {
+  userDao.getUser(username, password).then(user => {
     if (user)
       done(null, user);
     else
@@ -45,6 +42,16 @@ passport.deserializeUser((id, done) => {
     });
 });
 
+
+
+// init express
+const app = express();
+
+
+// set-up the middlewares
+app.use(morgan('dev'));
+app.use(express.json());
+
 // custom middleware: check if a given request is coming from an authenticated user
 const isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated())
@@ -66,45 +73,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-/*** Users APIs ***/
 
-// POST /sessions 
-// login
-app.post('/api/sessions', function(req, res, next) {
-  passport.authenticate('local', (err, user, info) => {
-    if (err)
-      return next(err);
-      if (!user) {
-        // display wrong login messages
-        return res.status(401).json(info);
-      }
-      // success, perform the login
-      req.login(user, (err) => {
-        if (err)
-          return next(err);
-        
-        // req.user contains the authenticated user, we send all the user info back
-        // this is coming from userDao.getUser()
-        return res.json(req.user);
-      });
-  })(req, res, next);
-});
-
-// DELETE /sessions/current 
-// logout
-app.delete('/api/sessions/current', (req, res) => {
-  req.logout();
-  res.end();
-});
-
-// GET /sessions/current
-// check whether the user is logged in or not
-app.get('/api/sessions/current', (req, res) => {
-  if(req.isAuthenticated()) {
-    res.status(200).json(req.user);}
-  else
-    res.status(401).json({error: 'Unauthenticated user!'});;
-});
 
 // retrieve all tasks
 app.get('/api/tasks', async (req, res) => {
@@ -245,5 +214,46 @@ app.delete('/api/tasks/id/:id', async (req, res) => {
         res.status(500).json(error);
     }
 });
+
+
+// POST /sessions 
+// login
+app.post('/api/sessions', function(req, res, next) {
+  passport.authenticate('local', (err, user, info) => {
+    if (err)
+      return next(err);
+      if (!user) {
+        // display wrong login messages
+        return res.status(401).json(info);
+      }
+      // success, perform the login
+      req.login(user, (err) => {
+        if (err)
+          return next(err);
+        
+        // req.user contains the authenticated user, we send all the user info back
+        // this is coming from userDao.getUser()
+        return res.json(req.user);
+      });
+  })(req, res, next);
+});
+
+
+// DELETE /sessions/current 
+// logout
+app.delete('/api/sessions/current', (req, res) => {
+  req.logout();
+  res.end();
+});
+
+// GET /sessions/current
+// check whether the user is logged in or not
+app.get('/api/sessions/current', (req, res) => {
+  if(req.isAuthenticated()) {
+    res.status(200).json(req.user);}
+  else
+    res.status(401).json({error: 'Unauthenticated user!'});;
+});
+
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}/`));

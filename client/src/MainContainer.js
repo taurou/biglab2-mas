@@ -113,7 +113,7 @@ function RowData(props) {
                 className = {props.task.important === 1 ? 'important' : ''} onChange={(event) => {props.handleCheckbox(props.task, event)}}
                 />
             </Form>
-      </Col>      <Col> {(() => {
+      </Col>      <Col xs={1} md={1} lg={1} > {(() => {
             if(props.task.private === 1) {
             return (
             <Form.Label className="col text-center">
@@ -140,7 +140,7 @@ function RowControls(props) {
     const [isHoveredTrash, setIsHoveredTrash] = useState(false);
 
     return (
-        <Col lg="2">
+        <Col xs={1.5} md={1.5} lg={1.5}>
             <Form.Label className="col text-right">
                 <img src={isHoveredPencil? pencil : staticPencil } width="25" height="25" 
                 onMouseEnter={() => setIsHoveredPencil(true)}

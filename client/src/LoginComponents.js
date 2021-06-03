@@ -3,18 +3,18 @@ import { useState } from 'react';
 
 function LoginForm(props) {
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('') ;
   
   const handleSubmit = (event) => {
       event.preventDefault();
       setErrorMessage('');
-      const credentials = { email, password };
+      const credentials = { username, password };
       
       // SOME VALIDATION, ADD MORE!!!
       let valid = true;
-      if(email === '' || password === '' || password.length < 6)
+      if(username === '' || password === '' || password.length < 6)
           valid = false;
       
       if(valid)
@@ -29,9 +29,9 @@ function LoginForm(props) {
   return (
     <Form>
       {errorMessage ? <Alert variant='danger'>{errorMessage}</Alert> : ''}
-      <Form.Group controlId='email'>
-          <Form.Label>Email</Form.Label>
-          <Form.Control type='email' value={email} onChange={ev => setEmail(ev.target.value)} />
+      <Form.Group controlId='username'>
+          <Form.Label>E-mail address</Form.Label>
+          <Form.Control type='username' value={username} onChange={ev => setUsername(ev.target.value)} />
       </Form.Group>
       <Form.Group controlId='password'>
           <Form.Label>Password</Form.Label>

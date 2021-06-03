@@ -6,6 +6,9 @@ async function logIn(credentials) {
       },
       body: JSON.stringify(credentials),
     });
+    console.log(credentials.email);
+    console.log(credentials.password);
+
     if(response.ok) {
       const user = await response.json();
       return user.email;
