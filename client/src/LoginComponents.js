@@ -11,14 +11,11 @@ function LoginForm(props) {
       event.preventDefault();
       setErrorMessage('');
       const credentials = { email, password };
-      
-      // SOME VALIDATION, ADD MORE!!!
       let valid = true;
       if(email === '' || password === '' || password.length < 6)
           valid = false;
       
-      if(valid)
-      {
+      if(valid) {
         props.login(credentials);
       }
       else {
@@ -44,7 +41,7 @@ function LoginForm(props) {
 function LogoutButton(props) {
   return(
     <Col>
-      <Button variant="outline-primary" onClick={props.logout}>Logout</Button>
+      <Button variant="outline-success" onClick={props.logout}>Logout</Button>
     </Col>
   )
 }

@@ -8,10 +8,6 @@ import FormModal from './Modal.js';
 import staticTrash from './static-trash.png';
 import staticPencil from './static-pencil.png';
 
-// TODO:
-// 1. sistemare gli important e private (booleani quando facciamo edit)
-// 2. fare il refresh quando facciamo edit/add/delete
-
 
 function MainContainer(props) {
 
@@ -54,7 +50,7 @@ function MainContainer(props) {
 
 
     }
-//TODO FAR VEDERE
+
     const { setUpdate, setSelected, actualLink, title } = props;
 
     useEffect(() => {

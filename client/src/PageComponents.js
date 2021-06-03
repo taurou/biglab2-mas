@@ -54,14 +54,6 @@ function PageComponents(props) {
         }
     }, [update, selected, props.loggedIn]);
 
-
-    const doLogOut = async () => {
-        await API.logOut();
-        props.setLoggedIn(false);
-        // clean up everything
-        setTasksState([]);
-    }
-
     return (
     <>   
         <Row id="row_1">

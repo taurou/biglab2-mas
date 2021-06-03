@@ -1,7 +1,7 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
-import { Container, Row, Alert } from 'react-bootstrap';
+import { Container, Row, Modal, Button} from 'react-bootstrap';
 
 import NavigationBar from './NavbarComponents.js';
 import PageComponents from './PageComponents.js';
@@ -11,13 +11,23 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import { useState, useEffect } from 'react';
 import API from './API.js';
 
+// TODO: mettere modal in un componente a parte
+// TODO: validate email & pass
+// TODO: fare la prova con più user
+// TODO: aggiornare il README e aggiungere username e password
+// TODO: controllare db user del prof (che abbiao cancellato) per vedere se ha il campo "name"
+
 function App() {
 
   // userid = 1
-  // email = pippo@myemail.it
+  // email = pippo@myemail.it 
   // password = paperino
   const [loggedIn, setLoggedIn] = useState(false); // at the beginning, no user is logged in
   const [message, setMessage] = useState('');
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   useEffect(()=> {
     const checkAuth = async() => {
@@ -38,17 +48,34 @@ function App() {
       const user = await API.logIn(credentials);
       setLoggedIn(true);
       setMessage({msg: `Welcome, ${user}!`, type: 'success'});
+      handleShow();
     } catch(err) {
-      setMessage({msg: err, type: 'danger'});
+      setMessage({msg: err+"!", type: 'danger'});
+      handleShow();
     }
+  }
+
+  const doLogOut = async () => {
+    await API.logOut();
+    setLoggedIn(false);
   }
 
   return (
     <Router>
       <Container fluid>
-        {loggedIn ? <NavigationBar loggedIn={loggedIn}/> : <Redirect to="/login" />}
+        {loggedIn ? <NavigationBar logout={doLogOut}/> : <Redirect to="/login" />}
         {message && <Row>
-          <Alert variant={message.type} onClose={() => setMessage('')} dismissible>{message.msg}</Alert>
+            <Modal 
+            show={show}
+            onHide={handleClose} 
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered>
+            <Modal.Header closeButton onClick={handleClose}></Modal.Header>
+            <Modal.Body className={message.type} onClose={() => setMessage('')} dismissible>
+              {message.msg}
+            </Modal.Body>
+            </Modal>
         </Row> }
         <Switch>
         <Route path="/login" render={() => 
@@ -58,10 +85,8 @@ function App() {
         <Route path="/" render={() =>
         <>
           {loggedIn ?
-            <Row>
               <PageComponents loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>
-            </Row>
-          : <Redirect to="/login" /> }
+              : <Redirect to="/login" /> }
         </>
         } />
       </Switch>

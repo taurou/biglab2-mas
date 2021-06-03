@@ -44,23 +44,16 @@ function FormModal(props) {
           valid = false;
         }
         else if (deadline === '' && hour === ''){
-          valid = true;                           //TODO PROVARE
+          valid = true;                           
         }
         else if (hour === '' && deadline !== '' ) {
-          setErrorMessage('If you insert a deadline set also an hour');
+          setErrorMessage('If you insert a deadline, please, set also an hour.');
           valid = false;
         }
         else if (hour !== '' && deadline === '' ) {
-          setErrorMessage('If you insert an hour set also a deadline');
+          setErrorMessage('If you insert an hour, please, set also a deadline.');
           valid = false;
-        }
-        else if(dayjs(deadline).isBefore(dayjs(),'day')) {
-          setErrorMessage('Date invalid: the date is in the past');
-          valid = false;
-        } else if(dayjs(deadline+"T"+hour).isBefore(dayjs())) {
-          setErrorMessage('Hour invalid: the hour is in the past');
-          valid = false;
-        }        
+        }    
           
         if(valid) {
 
@@ -81,7 +74,7 @@ function FormModal(props) {
 
         <Form.Check type="checkbox" checked={important} id="important" custom onChange={(event)=>{setImportant(event.target.checked)}} label="Important" /><br />
         <Form.Check type="checkbox" checked={privatez} id="private" custom onChange={(event)=>{setPrivatez(event.target.checked)}} label="Private" /><br />
-        <span style={{color:'red'}} >{errorMessage}</span>  {/* TODO: spostare style nel css - ingrandire il testo e mettere il colore rosso nel css*/}
+        <span className='important' >{errorMessage}</span> {/* TODO: provare */}
         <Modal.Footer>
         <Button onClick={props.closeModal} variant="secondary">Cancel</Button><br/>
         <Button onClick={handleForm}>{props.isAdding ? "Add" : "Edit"}</Button><br/>

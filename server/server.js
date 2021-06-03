@@ -17,13 +17,18 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // initialize and configure passport
-passport.use(new passportLocal.Strategy((email, password, done) => {
+passport.use(new passportLocal.Strategy(
+  {
+    usernameField: 'email'
+  },
+  (username, password, done) => {
   // verification callback for authentication
-  userDao.getUser(email, password).then(user => {
-    if (user)
+  userDao.getUser(username, password).then(user => {
+    if (user) {
       done(null, user);
+    }
     else
-      done(null, false, { message: 'Username or password wrong' });
+      done(null, false, { message: 'Email or password wrong' });
   }).catch(err => {
     done(err);
   });
@@ -71,6 +76,7 @@ app.use(passport.session());
 // POST /sessions 
 // login
 app.post('/api/sessions', function(req, res, next) {
+
   passport.authenticate('local', (err, user, info) => {
     if (err)
       return next(err);
@@ -107,10 +113,10 @@ app.get('/api/sessions/current', (req, res) => {
 });
 
 // retrieve all tasks
-app.get('/api/tasks', async (req, res) => {
+app.get('/api/tasks', isLoggedIn, async (req, res) => {
 
     try {
-        let tasks = await dao.listTasks();
+        let tasks = await dao.listTasks(req.user.id);
         res.json(tasks);
     } catch (error) {
         res.status(500).json(error);

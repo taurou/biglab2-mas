@@ -8,10 +8,10 @@ const db = new sqlite.Database('tasks.db', (err) => {
 });
 
 // get all tasks
-exports.listTasks = () => {
+exports.listTasks = (userid) => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM tasks ORDER BY DATETIME(deadline)';
-    db.all(sql, [], (err, rows) => {
+    const sql = 'SELECT * FROM tasks WHERE userid = ? ORDER BY DATETIME(deadline)';
+    db.all(sql, [userid], (err, rows) => {
       if (err) {
         reject(err);
         return;
