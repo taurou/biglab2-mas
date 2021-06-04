@@ -12,12 +12,8 @@ import { useState, useEffect } from 'react';
 import API from './API.js';
 
 // TODO: mettere modal in un componente a parte
-// TODO: validate email & pass
-// TODO: fare la prova con più user
 // TODO: aggiornare il README e aggiungere username e password
-// TODO: controllare db user del prof (che abbiao cancellato) per vedere se ha il campo "name"
-// TODO: modificare le query dei filtri mettendo anche la condizione dell'user
-
+// TODO: sistemare modal anche lato front end per validation
 function App() {
 
   // userid = 1

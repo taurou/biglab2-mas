@@ -3,7 +3,7 @@
 const express = require('express');
 const morgan = require('morgan')
 const session = require('express-session'); // session middleware
-
+const { check, validationResult } = require('express-validator');
 const passport = require('passport');
 const passportLocal = require('passport-local');
 
@@ -75,7 +75,13 @@ app.use(passport.session());
 
 // POST /sessions 
 // login
-app.post('/api/sessions', function (req, res, next) {
+app.post('/api/sessions', [ check('email').isEmail(), check('password').isLength({min :6})  ] , function (req, res, next) {
+
+  const error = validationResult(req);
+
+  if(!error.isEmpty()){
+    return res.status(422).json({message: "Email or password in the wrong format"});
+  }
 
   passport.authenticate('local', (err, user, info) => {
     if (err)
