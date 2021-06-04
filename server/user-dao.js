@@ -14,9 +14,9 @@ exports.getUser = (email, password) => {
             else if (row === undefined)
                 resolve(false); // user not found
             else {
-              bcrypt.compare(password, row.password).then(result => {
+              bcrypt.compare(password, row.hash).then(result => {
                     if (result) // password matches
-                        resolve({id: row.id, email: row.email});
+                        resolve({id: row.id, email: row.email, name: row.name});
                     else
                         resolve(false); // password not matching
                 })

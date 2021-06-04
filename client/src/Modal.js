@@ -59,7 +59,7 @@ function FormModal(props) {
 
           setConcluded(true);
           setErrorMessage('');
-          const task = {id: props.isAdding ? 0 : props.task.id, description: description, important: important, deadline: deadline === '' ? '' :  (deadline+"T"+hour), private: privatez, userid: 1};
+          const task = {id: props.isAdding ? 0 : props.task.id, description: description, important: important, deadline: deadline === '' ? '' :  (deadline+"T"+hour), private: privatez};
           props.addOrEdit(task);
           props.closeModal();
         }      
