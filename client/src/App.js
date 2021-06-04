@@ -16,12 +16,17 @@ import API from './API.js';
 // TODO: fare la prova con più user
 // TODO: aggiornare il README e aggiungere username e password
 // TODO: controllare db user del prof (che abbiao cancellato) per vedere se ha il campo "name"
+// TODO: modificare le query dei filtri mettendo anche la condizione dell'user
 
 function App() {
 
   // userid = 1
   // email = pippo@myemail.it 
   // password = paperino
+
+  // userid = 2
+  // email = other@mail.com
+  // password = thisisasecret
   const [loggedIn, setLoggedIn] = useState(false); // at the beginning, no user is logged in
   const [message, setMessage] = useState('');
   const [show, setShow] = useState(false);
