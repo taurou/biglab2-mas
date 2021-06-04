@@ -38,7 +38,7 @@ function LoginForm(props) {
   };
 
   return (
-    <Form>
+    <Form centered>
       {errorMessage ? <MessageModal setMessage={props.setMessage} handleClose={props.handleClose} message={errorMessage} show={props.show}/> : ''}
       <Form.Group controlId='email'>
           <Form.Label>Email</Form.Label>
