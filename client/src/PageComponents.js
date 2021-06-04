@@ -5,7 +5,6 @@ import SideContainer from './SideContainer.js';
 import MainContainer from './MainContainer.js';
 import AddController from './AddController.js';
 import { Switch, Route, useLocation } from 'react-router-dom';
-import API from './API.js';
 
 function PageComponents(props) {
 

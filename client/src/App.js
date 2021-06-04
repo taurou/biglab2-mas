@@ -1,19 +1,16 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 
-import { Container, Row, Modal, Button} from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import NavigationBar from './NavbarComponents.js';
 import PageComponents from './PageComponents.js';
-import { LoginForm } from './LoginComponents';
+import LoginForm from './LoginComponents.js';
+import MessageModal from './MessageModal.js'
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import API from './API.js';
-
-// TODO: mettere modal in un componente a parte
-// TODO: aggiornare il README e aggiungere username e password
-// TODO: sistemare modal anche lato front end per validation
 
 function App() {
 
@@ -59,22 +56,10 @@ function App() {
     <Router>
       <Container fluid>
         {loggedIn ? <NavigationBar logout={doLogOut}/> : <Redirect to="/login" />}
-        {message && <Row>
-            <Modal 
-            show={show}
-            onHide={handleClose} 
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered>
-            <Modal.Header closeButton onClick={handleClose}></Modal.Header>
-            <Modal.Body className={message.type} onClose={() => setMessage('')} dismissible>
-              {message.msg}
-            </Modal.Body>
-            </Modal>
-        </Row> }
+        {message && <MessageModal setMessage={setMessage} handleClose={handleClose} message={message} show={show}/> }
         <Switch>
         <Route path="/login" render={() => 
-          <>{loggedIn ? <Redirect to="/" /> : <LoginForm login={doLogIn} />}</>
+          <>{loggedIn ? <Redirect to="/" /> : <LoginForm login={doLogIn} setMessage={setMessage} handleClose={handleClose} handleShow={handleShow} show={show}/>}</>
         }/>
 
         <Route path="/" render={() =>

@@ -1,5 +1,6 @@
-import { Form, Button, Alert, Col } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
+import MessageModal from './MessageModal.js'
 
 function LoginForm(props) {
 
@@ -7,8 +8,6 @@ function LoginForm(props) {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('') ;
   
-
-
   const handleSubmit = (event) => {
       event.preventDefault();
       setErrorMessage('');
@@ -17,28 +16,30 @@ function LoginForm(props) {
 
       if(email === "") {
         valid= false
-        setErrorMessage("Please insert email address");
+        setErrorMessage({msg: "Please insert email address!", type: 'danger'});
       }
 
-      const mailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      const mailformat = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if(!email.match(mailformat)) {
         valid = false
-        setErrorMessage("Please insert a valid email address");
+        setErrorMessage({msg: "Please insert a valid email address!", type: 'danger'});
       }
 
       if(password === "" || password.length < 6) {
         valid = false
-        setErrorMessage("Please insert a password with at least 6 characters");
+        setErrorMessage({msg: "Please insert a password with at least 6 characters!", type: 'danger'});
       }
 
       if(valid) {
         props.login(credentials);
+      } else {
+        props.handleShow();
       }
   };
 
   return (
     <Form>
-      {errorMessage ? <Alert variant='danger'>{errorMessage}</Alert> : ''}
+      {errorMessage ? <MessageModal setMessage={props.setMessage} handleClose={props.handleClose} message={errorMessage} show={props.show}/> : ''}
       <Form.Group controlId='email'>
           <Form.Label>Email</Form.Label>
           <Form.Control type='email' value={email} onChange={ev => setEmail(ev.target.value)} />
@@ -51,4 +52,4 @@ function LoginForm(props) {
     </Form>)
 }
 
-export { LoginForm };
+export default LoginForm;
