@@ -227,7 +227,7 @@ name: Pippo
 
 userid: 2
 
-email: other@email.com 
+email: other@mail.com 
 
 password: thisisasecret
 

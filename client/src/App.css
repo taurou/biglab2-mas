@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.login {
+  margin-top: 5rem;
+}
+
 .whitetext {
   color: white;
 }
@@ -11,7 +15,7 @@
   padding-top: 5rem;
 }
 
-#row_1{
+.row_1{
     min-height: 100vh;
 }
 
@@ -73,4 +77,14 @@
 
 .disabled-link {
   pointer-events: none;
+}
+
+.center {
+  margin: auto;
+  margin-top: 10%;
+  width: 100%;
+  border: 2px solid green;
+  padding: 30px;
+  border-radius: 25px;
+  align-items: center;
 }

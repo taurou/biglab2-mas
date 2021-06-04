@@ -55,7 +55,7 @@ function PageComponents(props) {
 
     return (
     <>   
-        <Row id="row_1">
+        <Row className="row_1">
             <SideContainer chosen={selected} setSelected={setSelected} />
 
             <Switch>

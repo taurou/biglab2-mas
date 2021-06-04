@@ -55,7 +55,8 @@ function App() {
   return (
     <Router>
       <Container fluid>
-        {loggedIn ? <NavigationBar logout={doLogOut}/> : <Redirect to="/login" />}
+        <NavigationBar logout={doLogOut} login={loggedIn}/>
+        {loggedIn ? '' : <Redirect to="/login" />}
         {message && <MessageModal setMessage={setMessage} handleClose={handleClose} message={message} show={show}/> }
         <Switch>
         <Route path="/login" render={() => 
