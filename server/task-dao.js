@@ -117,7 +117,6 @@ exports.getTaskById = (id, userid) => {
 exports.createTask = (task) => {
   return new Promise((resolve, reject) => {
     const sql = 'INSERT INTO tasks(description, important, deadline, private, checked, userid) VALUES(?, ?, DATETIME(?), ?, 0, ?)';
-    //TODO fare controlli dei booleani
     db.run(sql, [task.description, task.important, task.deadline, task.private, task.userid], function (err) {
       if (err) {
         reject(err);

@@ -56,7 +56,6 @@ function FormModal(props) {
         }    
           
         if(valid) {
-
           setConcluded(true);
           setErrorMessage('');
           const task = {id: props.isAdding ? 0 : props.task.id, description: description, important: important, deadline: deadline === '' ? '' :  (deadline+"T"+hour), private: privatez};
@@ -74,7 +73,7 @@ function FormModal(props) {
 
         <Form.Check type="checkbox" checked={important} id="important" custom onChange={(event)=>{setImportant(event.target.checked)}} label="Important" /><br />
         <Form.Check type="checkbox" checked={privatez} id="private" custom onChange={(event)=>{setPrivatez(event.target.checked)}} label="Private" /><br />
-        <span className='important' >{errorMessage}</span> {/* TODO: provare */}
+        <span className='important' >{errorMessage}</span>
         <Modal.Footer>
         <Button onClick={props.closeModal} variant="secondary">Cancel</Button><br/>
         <Button onClick={handleForm}>{props.isAdding ? "Add" : "Edit"}</Button><br/>

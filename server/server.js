@@ -94,9 +94,6 @@ app.post('/api/sessions', [ check('email').isEmail(), check('password').isLength
     req.login(user, (err) => {
       if (err)
         return next(err);
-
-      // req.user contains the authenticated user, we send all the user info back
-      // this is coming from userDao.getUser()
       return res.json(req.user);
     });
   })(req, res, next);
@@ -118,6 +115,8 @@ app.get('/api/sessions/current', (req, res) => {
   else
     res.status(401).json({ error: 'Unauthenticated user!' });;
 });
+
+/*** Tasks APIs ***/
 
 // retrieve all tasks
 app.get('/api/tasks', isLoggedIn, async (req, res) => {
@@ -174,7 +173,6 @@ app.get('/api/tasks/deadline/:deadline', isLoggedIn, async (req, res) => {
     res.status(500).json(error);
   }
 });
-
 
 //retrieve today's tasks
 app.get('/api/tasks/today', isLoggedIn, async (req, res) => {

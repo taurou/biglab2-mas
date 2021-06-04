@@ -2,9 +2,7 @@
 const db = require('./db');
 const bcrypt = require('bcrypt');
 
-
 // DAO operations for validating users
-
 exports.getUser = (email, password) => {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM user WHERE email = ?';
@@ -34,7 +32,6 @@ exports.getUserById = (id) => {
           else if (row === undefined)
             resolve({error: 'User not found.'});
           else {
-            // by default, the local strategy looks for "username": not to create confusion in server.js, we can create an object with that property
             const user = {id: row.id, email: row.email }
             resolve(user);
           }

@@ -17,7 +17,6 @@ function MainContainer(props) {
             'Content-Type': 'application/json',
             }});
         props.setUpdate(true);
-        // props.setTasks((ts) => ts.filter(task => task.id !== taskID))
     }
 
 
@@ -28,9 +27,6 @@ function MainContainer(props) {
             body: JSON.stringify(newTask)
         })
 
-        // props.setTasks((ts) => ts.map(
-        //     (task) => (newTask.id === task.id ? newTask: task)
-        // ));
         props.setUpdate(true);
 
     }
@@ -43,12 +39,10 @@ function MainContainer(props) {
             method : 'PUT', 
             headers: { 'Content-Type': 'application/json'},
         })
-        props.setTasks((ts) => ts.map(                              //questo l'ho lasciato perché la checkbox deve essere super reattiva
+        props.setTasks((ts) => ts.map(                              
             (task) => (newTask.id === task.id ? task2 : task)
         ));
         props.setUpdate(true);
-
-
     }
 
     const { setUpdate, setSelected, actualLink, title } = props;
@@ -56,8 +50,7 @@ function MainContainer(props) {
     useEffect(() => {
         setSelected(title);
         setUpdate(true);
-    } , [setUpdate, setSelected, actualLink, title]);
-
+    }, [setUpdate, setSelected, actualLink, title]);
 
     return (
         <Col>
@@ -65,14 +58,12 @@ function MainContainer(props) {
                 <h1>{props.title}</h1>
 
                 <ListGroup className="TaskList" variant="flush">
-                    
                     {props.tasks.map(t => <TaskRow
                         key={t.id}
                         task={t}
                         deleteTask={deleteTask}
                         editTask={editTask}
                         handleCheckbox={handleCheckbox}
-        
                     />
                     )}
                 </ListGroup>
@@ -80,9 +71,6 @@ function MainContainer(props) {
         </Col>
     );
 }
-
-
-
 
 function TaskRow(props) {
 
@@ -103,22 +91,23 @@ function TaskRow(props) {
 function RowData(props) {
 
     return (<>
-      <Col>
+        <Col>
             <Form inline>
                 <Form.Check type="checkbox" checked={props.task.checked === 1 ? true : false} id={props.task.id} label = {props.task.description} custom
                 className = {props.task.important === 1 ? 'important' : ''} onChange={(event) => {props.handleCheckbox(props.task, event)}}
                 />
             </Form>
-      </Col>      <Col> {(() => {
+        </Col> 
+        <Col> {(() => {
             if(props.task.private === 1) {
-            return (
-            <Form.Label className="col text-center">
-                <svg className="bi bi-person-square" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clipRule="evenodd"/>
-                <path fillRule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"/>
-                </svg>
-            </Form.Label>
-            )
+                return (
+                <Form.Label className="col text-center">
+                    <svg className="bi bi-person-square" width="1.3em" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" d="M14 1H2a1 1 0 00-1 1v12a1 1 0 001 1h12a1 1 0 001-1V2a1 1 0 00-1-1zM2 0a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V2a2 2 0 00-2-2H2z" clipRule="evenodd"/>
+                    <path fillRule="evenodd" d="M2 15v-1c0-1 1-4 6-4s6 3 6 4v1H2zm6-6a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd"/>
+                    </svg>
+                </Form.Label>
+                )
             }
         })()}
       </Col>
@@ -177,6 +166,5 @@ function formatDeadline(taskDeadline) {
         return taskDeadline.format('dddd DD MMMM YYYY [at] HH:mm');
     }
 }
-
 
 export default MainContainer;

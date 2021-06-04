@@ -5,7 +5,7 @@ import { Container, Row, Modal, Button} from 'react-bootstrap';
 
 import NavigationBar from './NavbarComponents.js';
 import PageComponents from './PageComponents.js';
-import { LoginForm, LogoutButton } from './LoginComponents';
+import { LoginForm } from './LoginComponents';
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -14,16 +14,10 @@ import API from './API.js';
 // TODO: mettere modal in un componente a parte
 // TODO: aggiornare il README e aggiungere username e password
 // TODO: sistemare modal anche lato front end per validation
+
 function App() {
 
-  // userid = 1
-  // email = pippo@myemail.it 
-  // password = paperino
-
-  // userid = 2
-  // email = other@mail.com
-  // password = thisisasecret
-  const [loggedIn, setLoggedIn] = useState(false); // at the beginning, no user is logged in
+  const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState('');
   const [show, setShow] = useState(false);
 

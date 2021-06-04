@@ -209,3 +209,26 @@ Request body: EMPTY
 Response: 
 
 Response body: EMPTY
+
+
+## Registered users in the system
+
+### User 1
+
+userid: 1
+
+email: pippo@myemail.it 
+
+password: paperino
+
+name: Pippo
+
+### User 2
+
+userid: 2
+
+email: other@email.com 
+
+password: thisisasecret
+
+name: Other

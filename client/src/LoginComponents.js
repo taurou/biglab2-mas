@@ -14,25 +14,22 @@ function LoginForm(props) {
       setErrorMessage('');
       const credentials = { email, password };
       let valid = true;
-      if(email ==="")
-      {
+
+      if(email === "") {
         valid= false
         setErrorMessage("Please insert email address");
       }
 
       const mailformat = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if(!email.match(mailformat)){
-        valid= false
+      if(!email.match(mailformat)) {
+        valid = false
         setErrorMessage("Please insert a valid email address");
       }
 
-
-      if(password ==="" || password.length < 6)
-      {
-        valid= false
+      if(password === "" || password.length < 6) {
+        valid = false
         setErrorMessage("Please insert a password with at least 6 characters");
       }
-
 
       if(valid) {
         props.login(credentials);
@@ -54,12 +51,4 @@ function LoginForm(props) {
     </Form>)
 }
 
-function LogoutButton(props) {
-  return(
-    <Col>
-      <Button variant="outline-success" onClick={props.logout}>Logout</Button>
-    </Col>
-  )
-}
-
-export { LoginForm, LogoutButton };
+export { LoginForm };
