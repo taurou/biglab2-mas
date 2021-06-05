@@ -24,8 +24,6 @@ function App() {
   useEffect(()=> {
     const checkAuth = async() => {
       try {
-        // here you have the user info, if already logged in
-        // TODO: store them somewhere and use them, if needed
         await API.getUserInfo();
         setLoggedIn(true);
       } catch(err) {
